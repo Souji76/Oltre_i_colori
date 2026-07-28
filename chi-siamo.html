@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi Siamo — Oltre i Colori APS</title>
+<link rel="icon" type="image/png" href="logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#F58220;
+  --magenta:#E6007E;
+  --blue:#009EE3;
+  --dark:#0F172A;
+  --dark-card:#1E293B;
+  --bg:#F1F5F9;
+  --text:#0F172A;
+  --muted:#64748B;
+  --grad: linear-gradient(135deg, var(--orange), var(--magenta), var(--blue));
+  --grad-orange-pink: linear-gradient(135deg, var(--orange), var(--magenta));
+  --grad-pink-blue: linear-gradient(135deg, var(--magenta), var(--blue));
+  --r: clamp(16px, 3vw, 28px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.brand-title{font-family:'Fredoka',sans-serif;}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;height:auto;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(14px, 4vw, 32px);}
+
+/* ---------- SCROLL PROGRESS ---------- */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:5px;width:0%;
+  background:var(--grad);z-index:999;transition:width .1s ease-out;
+}
+
+/* ---------- NAVBAR FLOATING GLASS (RESPONSIVA E SEMPRE VISIBILE) ---------- */
+header{
+  position:fixed;top:12px;left:0;right:0;z-index:100;
+  pointer-events:none;
+}
+.nav-container{
+  pointer-events:auto;
+  background:rgba(255, 255, 255, 0.92);
+  backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.8);
+  box-shadow:0 12px 32px rgba(15, 23, 42, 0.1);
+  border-radius:24px;
+  padding:clamp(8px, 1.5vw, 12px) clamp(12px, 2.5vw, 24px);
+  display:flex;align-items:center;justify-content:space-between;
+  gap: 12px;
+  transition:all .3s ease;
+}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.brand img{height:clamp(28px, 4vw, 38px);width:auto;}
+.nav-links{
+  display:flex;align-items:center;
+  gap:clamp(10px, 2vw, 28px);
+  font-weight:600;
+  font-size:clamp(0.8rem, 1vw, 0.92rem);
+}
+.nav-links a{
+  position:relative;padding:4px 2px;color:var(--text);
+  transition:color .25s ease;
+  white-space:nowrap;
+}
+.nav-links a::after{
+  content:"";position:absolute;bottom:0;left:50%;width:0;height:3px;
+  background:var(--grad);border-radius:3px;transform:translateX(-50%);
+  transition:width .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.nav-links a:hover::after, .nav-links a.active::after{width:100%;}
+
+.btn-cta{
+  background:var(--grad-orange-pink);color:#fff;
+  padding:clamp(8px, 1.2vw, 10px) clamp(12px, 2vw, 22px);
+  border-radius:999px;font-weight:700;font-size:clamp(0.75rem, 1vw, 0.88rem);
+  box-shadow:0 6px 20px rgba(230, 0, 126, 0.3);
+  display:inline-flex;align-items:center;gap:6px;
+  transition:transform .25s ease, box-shadow .25s ease;
+  white-space:nowrap;flex-shrink:0;
+}
+.btn-cta:hover{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 10px 28px rgba(230, 0, 126, 0.45);
+}
+
+/* ADATTAMENTO NAVBAR PER MOBILE SENZA NASCONDERE NULLA */
+@media (max-width: 768px){
+  header{top:8px;}
+  .nav-container{
+    flex-wrap:wrap;
+    padding:10px 14px;
+    border-radius:20px;
+    gap:8px 12px;
+  }
+  .nav-links{
+    order:3;
+    width:100%;
+    justify-content:space-between;
+    padding-top:6px;
+    border-top:1px solid rgba(15, 23, 42, 0.08);
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; /* Nasconde scrollbar */
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-links a{
+    font-size:0.8rem;
+    padding:4px 6px;
+  }
+}
+
+/* ---------- HERO ---------- */
+.hero-about{
+  position:relative;
+  padding:clamp(130px, 18vh, 170px) 0 clamp(40px, 8vh, 80px);
+  background:linear-gradient(180deg, #FFFFFF 0%, var(--bg) 100%);
+  min-height:auto;
+  display:flex;align-items:center;overflow:hidden;
+}
+#heroCanvas{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px, 5vw, 48px);
+  align-items:center;position:relative;z-index:1;
+}
+.badge-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245, 130, 32, 0.1);color:var(--orange);
+  border:1px solid rgba(245, 130, 32, 0.25);
+  padding:6px 14px;border-radius:999px;font-weight:700;
+  font-size:clamp(0.75rem, 1.2vw, 0.85rem);
+  margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em;
+  animation:float-soft 4s ease-in-out infinite;
+}
+@keyframes float-soft{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+.hero-title{
+  font-size:clamp(2.1rem, 4.5vw, 4rem);line-height:1.1;
+  color:var(--dark);margin-bottom:20px;
+}
+.text-gradient{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;background-size:200% 200%;
+  animation:gradient-flow 5s ease infinite;
+}
+@keyframes gradient-flow{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+.hero-quote-card{
+  background:#fff;border-radius:20px;padding:clamp(16px, 3vw, 26px) clamp(20px, 3vw, 30px);
+  border-left:5px solid var(--magenta);
+  box-shadow:0 20px 40px rgba(15, 23, 42, 0.06);
+  font-size:clamp(0.95rem, 1.5vw, 1.15rem);font-weight:600;color:var(--dark);
+  position:relative;margin-top:16px;
+}
+.hero-quote-card span{display:block;font-size:clamp(0.8rem, 1.2vw, 0.88rem);color:var(--muted);margin-top:8px;font-weight:500;}
+
+/* IMAGE STACK ADATTIVO */
+.image-stack{
+  position:relative;
+  width:100%;
+  max-width:440px;
+  height:clamp(300px, 45vw, 440px);
+  margin:0 auto;
+  display:flex;justify-content:center;align-items:center;
+}
+.stack-card{
+  position:absolute;border-radius:clamp(18px, 3vw, 32px);overflow:hidden;
+  box-shadow:0 24px 50px rgba(15, 23, 42, 0.15);
+  transition:transform .5s cubic-bezier(.175, .885, .32, 1.275);
+}
+.stack-card img{width:100%;height:100%;object-fit:cover;}
+.sc-1{
+  width:62%;height:78%;top:0;left:0;
+  transform:rotate(-6deg);z-index:2;
+}
+.sc-2{
+  width:65%;height:74%;bottom:0;right:0;
+  transform:rotate(5deg);z-index:3;
+}
+.sc-badge{
+  position:absolute;bottom:0px;left:50%;
+  transform:translateX(-50%);z-index:4;
+  background:#fff;padding:10px 18px;border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+  display:flex;align-items:center;gap:10px;
+  white-space:nowrap;
+  animation:float-slow 5s ease-in-out infinite alternate;
+}
+@keyframes float-slow{from{transform:translateX(-50%) translateY(0) rotate(-2deg);}to{transform:translateX(-50%) translateY(-10px) rotate(2deg);}}
+.sc-badge-icon{
+  width:36px;height:36px;border-radius:10px;background:var(--grad-pink-blue);
+  display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;
+}
+
+/* ---------- LA NOSTRA STORIA TIMELINE ---------- */
+.story-section{padding:clamp(50px, 8vw, 100px) 0;}
+.sec-header{text-align:center;max-width:700px;margin:0 auto clamp(30px, 6vw, 60px);}
+.sec-header h2{font-size:clamp(1.8rem, 3.5vw, 3rem);color:var(--dark);margin-bottom:12px;}
+.sec-header p{color:var(--muted);font-size:clamp(0.95rem, 1.5vw, 1.1rem);}
+
+.timeline{position:relative;max-width:900px;margin:0 auto;}
+.timeline::before{
+  content:"";position:absolute;top:0;bottom:0;left:50%;width:4px;
+  background:linear-gradient(180deg, var(--orange), var(--magenta), var(--blue));
+  transform:translateX(-50%);border-radius:4px;
+}
+.timeline-item{
+  display:flex;justify-content:flex-end;padding-right: clamp(24px, 5vw, 50px);
+  position:relative;margin-bottom:40px;width:50%;
+}
+.timeline-item:nth-child(even){
+  align-self:flex-end;justify-content:flex-start;
+  padding-right:0;padding-left: clamp(24px, 5vw, 50px);margin-left:50%;
+}
+.timeline-dot{
+  position:absolute;top:20px;right:-12px;width:24px;height:24px;
+  border-radius:50%;background:#fff;border:5px solid var(--magenta);
+  box-shadow:0 0 0 6px rgba(230,0,126,0.2);z-index:2;
+  transition:transform .3s ease, background .3s ease;
+}
+.timeline-item:nth-child(even) .timeline-dot{right:auto;left:-12px;}
+.timeline-card{
+  background:#fff;padding:clamp(20px, 4vw, 32px);border-radius:var(--r);
+  box-shadow:0 10px 30px rgba(15, 23, 42, 0.05);
+  border:1px solid rgba(15, 23, 42, 0.06);
+  position:relative;transition:transform .35s ease, box-shadow .35s ease;
+  width:100%;
+}
+.timeline-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(15, 23, 42, 0.1);
+}
+.timeline-card h3{font-size:clamp(1.15rem, 2vw, 1.35rem);color:var(--dark);margin-bottom:8px;}
+.timeline-card p{color:var(--muted);font-size:clamp(0.9rem, 1.2vw, 1rem);line-height:1.6;}
+
+/* ---------- CITAZIONE SPOTLIGHT DARK ---------- */
+.quote-spotlight{
+  margin:clamp(30px, 6vw, 60px) 0;
+  padding:clamp(45px, 8vw, 90px) clamp(16px, 4vw, 24px);
+  background:var(--dark);
+  border-radius:clamp(24px, 5vw, 40px);color:#fff;position:relative;overflow:hidden;
+  text-align:center;
+}
+.quote-spotlight-glow{
+  position:absolute;width:300px;height:300px;border-radius:50%;
+  background:var(--grad-pink-blue);filter:blur(80px);opacity:.35;
+  top:-50px;left:50%;transform:translateX(-50%);pointer-events:none;
+}
+.quote-spotlight h2{
+  font-size:clamp(1.8rem, 4vw, 3.8rem);line-height:1.15;
+  max-width:900px;margin:0 auto 16px;position:relative;z-index:1;
+}
+.quote-spotlight p{
+  font-size:clamp(0.95rem, 1.5vw, 1.2rem);color:rgba(255,255,255,0.75);max-width:680px;
+  margin:0 auto;position:relative;z-index:1;
+}
+
+/* ---------- BENTO GRID PILASTRI & VALORI ---------- */
+.pillars-section{padding:clamp(40px, 6vw, 80px) 0 clamp(30px, 5vw, 60px);}
+.bento-grid{
+  display:grid;grid-template-columns:repeat(12, 1fr);gap:clamp(16px, 3vw, 24px);
+}
+.bento-card{
+  background:#fff;border-radius:clamp(20px, 4vw, 32px);
+  padding:clamp(24px, 4vw, 40px) clamp(20px, 3vw, 32px);
+  border:1px solid rgba(15, 23, 42, 0.06);
+  box-shadow:0 12px 30px rgba(15, 23, 42, 0.04);
+  position:relative;overflow:hidden;
+  transition:transform .35s ease, box-shadow .35s ease;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.bento-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 24px 48px rgba(15, 23, 42, 0.1);
+}
+.b1{grid-column:span 7;}
+.b2{grid-column:span 5;}
+.b3{grid-column:span 12;background:linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);}
+
+.bento-icon{
+  width:clamp(50px, 6vw, 64px);height:clamp(50px, 6vw, 64px);
+  border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;margin-bottom:20px;font-size:clamp(1.4rem, 2vw, 1.8rem);
+}
+.b1 .bento-icon{background:var(--grad-orange-pink);}
+.b2 .bento-icon{background:var(--grad-pink-blue);}
+.b3 .bento-icon{background:linear-gradient(135deg, var(--orange), var(--blue));}
+
+.bento-card h3{font-size:clamp(1.3rem, 2vw, 1.6rem);color:var(--dark);margin-bottom:10px;}
+.bento-card p{color:var(--muted);font-size:clamp(0.92rem, 1.2vw, 1.05rem);line-height:1.65;}
+
+/* ---------- CTA BANNER ---------- */
+.cta-banner{
+  background:var(--grad);
+  border-radius:clamp(24px, 5vw, 36px);
+  padding:clamp(40px, 6vw, 80px) clamp(20px, 4vw, 32px);
+  text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.cta-banner h2{font-size:clamp(1.8rem, 4vw, 3.2rem);margin-bottom:12px;}
+.cta-banner p{font-size:clamp(1rem, 1.5vw, 1.2rem);max-width:640px;margin:0 auto 28px;color:rgba(255,255,255,0.9);}
+.btn-white{
+  background:#fff;color:var(--dark);
+  padding:clamp(12px, 1.5vw, 14px) clamp(24px, 3vw, 32px);
+  border-radius:999px;
+  font-weight:800;font-size:clamp(0.9rem, 1.2vw, 1rem);
+  display:inline-flex;align-items:center;gap:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.2);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.btn-white:hover{transform:scale(1.05);box-shadow:0 16px 36px rgba(0,0,0,0.3);}
+
+/* ---------- TASTO DESIGN TORNA ALLA HOME ---------- */
+.home-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(40px, 7vw, 70px) 16px clamp(30px, 5vw, 50px);
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.btn-home-glow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 14px);
+  padding: clamp(12px, 2vw, 16px) clamp(20px, 4vw, 36px);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #0F172A;
+  font-family: 'Fredoka', 'Inter', sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 
+    0 12px 32px rgba(15, 23, 42, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.btn-glow-bg {
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--orange), var(--magenta), var(--blue));
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0.35;
+  filter: blur(12px);
+  transition: opacity 0.4s ease, filter 0.4s ease;
+  animation: gradientShift 6s ease infinite;
+}
+
+.btn-icon-box {
+  width: clamp(32px, 4vw, 40px);
+  height: clamp(32px, 4vw, 40px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(245, 130, 32, 0.15), rgba(230, 0, 126, 0.15));
+  color: var(--magenta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s ease, background 0.4s ease, color 0.4s ease;
+}
+
+.btn-icon-box svg {
+  width: clamp(18px, 2.5vw, 22px);
+  height: clamp(18px, 2.5vw, 22px);
+}
+
+.btn-label-text {
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-arrow-box {
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-arrow-box svg {
+  width: clamp(15px, 2vw, 18px);
+  height: clamp(15px, 2vw, 18px);
+}
+
+.btn-home-glow:hover {
+  transform: translateY(-6px) scale(1.03);
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 
+    0 20px 40px rgba(230, 0, 126, 0.22),
+    0 8px 16px rgba(0, 158, 227, 0.15);
+}
+
+.btn-home-glow:hover .btn-glow-bg {
+  opacity: 0.85;
+  filter: blur(18px);
+}
+
+.btn-home-glow:hover .btn-icon-box {
+  transform: rotate(-10deg) scale(1.1);
+  background: linear-gradient(135deg, var(--orange), var(--magenta));
+  color: #FFFFFF;
+}
+
+.btn-home-glow:hover .btn-arrow-box {
+  transform: translateX(6px);
+  color: var(--magenta);
+}
+
+.btn-home-glow:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  background:var(--dark);color:#fff;
+  padding:clamp(50px, 8vw, 80px) 0 30px;
+  border-radius:clamp(28px, 5vw, 40px) clamp(28px, 5vw, 40px) 0 0;
+}
+.foot-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;
+  gap:clamp(24px, 4vw, 40px);
+  padding-bottom:clamp(30px, 5vw, 50px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.foot-brand p{color:rgba(255,255,255,0.6);margin-top:14px;max-width:300px;font-size:0.92rem;}
+.social-links{display:flex;gap:12px;margin-top:20px;}
+.social-links a{
+  width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s ease, transform .3s ease;
+}
+.social-links a:hover{background:var(--grad-orange-pink);transform:translateY(-4px);}
+
+.foot-col h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin-bottom:16px;}
+.foot-col a{display:block;color:rgba(255,255,255,0.75);margin-bottom:10px;font-size:.92rem;transition:color .2s ease;}
+.foot-col a:hover{color:#fff;}
+
+.nl-input-group{display:flex;gap:8px;margin-top:10px;width:100%;}
+.nl-input-group input{
+  flex:1;min-width:0;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  padding:10px 14px;border-radius:12px;color:#fff;font-size:.88rem;outline:none;
+}
+.nl-input-group button{
+  background:var(--grad-orange-pink);color:#fff;padding:0 16px;border-radius:12px;
+  font-weight:700;transition:transform .2s ease;
+}
+.nl-input-group button:hover{transform:scale(1.05);}
+
+.foot-bottom{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
+  padding-top:24px;font-size:clamp(0.75rem, 1vw, 0.85rem);color:rgba(255,255,255,0.4);gap:12px;
+}
+
+/* ---------- REVEAL ANIMATIONS ---------- */
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+/* ---------- BREAKPOINTS SPECIFICI PER DISPOSITIVI ---------- */
+
+/* Tablet & Schermi Medi (< 992px) */
+@media (max-width: 992px){
+  .hero-grid{grid-template-columns:1fr;text-align:center;}
+  .badge-pill{margin-left:auto;margin-right:auto;}
+  .hero-quote-card{text-align:left;}
+  .image-stack{margin-top:20px;}
+  
+  .b1, .b2, .b3{grid-column:span 12;}
+  
+  .timeline::before{left:20px;}
+  .timeline-item, .timeline-item:nth-child(even){
+    width:100%;margin-left:0;padding-left:50px;padding-right:0;justify-content:flex-start;
+  }
+  .timeline-dot, .timeline-item:nth-child(even) .timeline-dot{left:8px;right:auto;}
+  
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* Smartphone Orizzontale & Schermi Piccoli (< 680px) */
+@media (max-width: 680px){
+  .foot-grid{grid-template-columns:1fr;}
+  .foot-bottom{flex-direction:column;text-align:center;}
+}
+
+/* Smartphone Stretti (< 420px) */
+@media (max-width: 420px){
+  .timeline::before{left:14px;}
+  .timeline-item, .timeline-item:nth-child(even){padding-left:36px;}
+  .timeline-dot, .timeline-item:nth-child(even) .timeline-dot{left:2px;width:20px;height:20px;}
+  
+  .sc-badge{
+    padding:8px 12px;
+    font-size:0.8rem;
+  }
+  .sc-badge-icon{width:30px;height:30px;}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAVIGATION -->
+<header>
+  <div class="wrap">
+    <div class="nav-container">
+      <a href="oltre-i-colori-home.html" class="brand">
+        <img src="logo-full.png" alt="Oltre i Colori">
+      </a>
+      <nav class="nav-links">
+        <a href="chi-siamo.html" class="active">Chi Siamo</a>
+        <a href="index.html#attivita">Attività</a>
+        <a href="index.html#impatto">Storie & Impatto</a>
+        <a href="index.html#aiutare">News ed Eventi</a>
+      </nav>
+      <a href="https://www.instagram.com/oltreicoloriofficial_?igsh=MXJydTlnczFzcjE1MA==" target="_blank" class="btn-cta">
+        <span>Seguici su IG</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9C.6 8.7 2 5 5.5 5c2 0 3.4 1.2 4.5 2.6C11.1 6.2 12.5 5 14.5 5 18 5 19.4 8.7 22 12c-2.5 4.4-10 9-10 9z" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO CHI SIAMO -->
+  <section class="hero-about">
+    <canvas id="heroCanvas"></canvas>
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="badge-pill">
+          ✨ La Nostra Identità
+        </span>
+        <h1 class="hero-title">
+          Coltiviamo futuro, <br><span class="text-gradient">Oltre ogni Colore.</span>
+        </h1>
+        <p style="font-size: clamp(0.95rem, 1.4vw, 1.15rem); color: var(--muted); margin-bottom: 20px;">
+          Siamo una realtà fatta di energia, condivisione e passione per il territorio. Trasformiamo le idee dei giovani in spazi d'incontro vitali.
+        </p>
+        <div class="hero-quote-card">
+          «Tutto inizia da un’idea semplice: fare la differenza dove viviamo, partendo dai giovani.»
+          <span>— Il Manifesto di Oltre i Colori APS</span>
+        </div>
+      </div>
+
+      <!-- STACK FOTOGRAFICO ASIMMETRICO -->
+      <div class="image-stack reveal">
+        <div class="stack-card sc-1">
+          <img src="maglia.jpeg" alt="Laboratorio creativo">
+        </div>
+        <div class="stack-card sc-2">
+          <img src="IMG_0066.jpg" alt="Attività sul territorio">
+        </div>
+        <div class="sc-badge">
+          <div class="sc-badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z" fill="currentColor"/></svg>
+          </div>
+          <div>
+            <strong style="display:block; font-size:.88rem;">100% Giovani</strong>
+            <span style="font-size:.78rem; color:var(--muted);">Energia in movimento</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA NOSTRA STORIA (TIMELINE) -->
+  <section class="story-section wrap">
+    <div class="sec-header reveal">
+      <span style="color:var(--magenta); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-size:.85rem;">Come nasce il sogno</span>
+      <h2>La Nostra Storia</h2>
+      <p>Non volevamo essere semplici spettatori del nostro territorio, ma protagonisti attivi del cambiamento.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <h3>La Scintilla Iniziale</h3>
+          <p>
+            Oltre i Colori nasce dall'energia di un gruppo di giovani uniti dalla stessa passione: trasformare il territorio attraverso l'arte, il gioco, la cultura e l'animazione.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot" style="border-color:var(--orange);"></div>
+        <div class="timeline-card">
+          <h3>L'Esigenza di Spazi Senza Limiti</h3>
+          <p>
+            Osservando le nostre città, abbiamo sentito l'esigenza forte di creare spazi di aggregazione senza barriere, luoghi d'incontro dove la creatività diventa uno strumento d'inclusione reale.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot" style="border-color:var(--blue);"></div>
+        <div class="timeline-card">
+          <h3>Oggi: Una Realtà in Crescita</h3>
+          <p>
+            Oggi siamo una realtà radicata e in continua espansione, capace di stringere collaborazioni preziose con enti, scuole e comitati per rendere il futuro più colorato.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPOTLIGHT CITAZIONE -->
+  <section class="wrap">
+    <div class="quote-spotlight reveal">
+      <div class="quote-spotlight-glow"></div>
+      <h2>«L’arte non divide. Crea legami.»</h2>
+      <p>
+        Questa è la nostra guida. Crediamo che ogni attività, evento o laboratorio debba essere un ponte per unire generazioni e persone diverse.
+      </p>
+    </div>
+  </section>
+
+  <!-- PILASTRI BENTO GRID -->
+  <section class="pillars-section wrap">
+    <div class="sec-header reveal">
+      <span style="color:var(--blue); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-size:.85rem;">Impatto Reale</span>
+      <h2>Presenti sul Territorio</h2>
+      <p>I tre pilastri che guidano ogni nostra singola iniziativa quotidiana.</p>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento-card b1 reveal">
+        <div>
+          <div class="bento-icon">⚡</div>
+          <h3>Energia Ovunque</h3>
+          <p>
+            Dalle piazze ai quartieri, portiamo la nostra energia ovunque ci sia bisogno di un punto di riferimento: con laboratori, eventi culturali, iniziative sociali e momenti di pura animazione.
+          </p>
+        </div>
+      </div>
+
+      <div class="bento-card b2 reveal">
+        <div>
+          <div class="bento-icon">🤝</div>
+          <h3>Sinergia Locale</h3>
+          <p>
+            Costruiamo reti solide lavorando fianco a fianco con enti locali e associazioni per valorizzare insieme le risorse del nostro territorio.
+          </p>
+        </div>
+      </div>
+
+      <div class="bento-card b3 reveal">
+        <div>
+          <div class="bento-icon">💬</div>
+          <h3>Contatto Diretto con la Gente</h3>
+          <p>
+            Siamo presenti tra le persone, banchetto dopo banchetto, sorriso dopo sorriso. Un team accogliente pronto ad ascoltare e coinvolgere chiunque voglia mettere in gioco le proprie idee.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION BANNER -->
+  <section class="wrap">
+    <div class="cta-banner reveal">
+      <h2>Vuoi fare la differenza con noi?</h2>
+      <p>Unisciti alla nostra community o diventa parte attiva delle prossime iniziative.</p>
+      <a href="https://www.instagram.com/oltreicoloriofficial_?igsh=MXJydTlnczFzcjE1MA==" target="_blank" class="btn-white">
+        Entra nel Team
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- TASTO DESIGN TORNA ALLA HOME -->
+  <div class="home-button-container reveal">
+    <a href="oltre-i-colori-home.html" class="btn-home-glow" id="btnHomeDesign">
+      <span class="btn-glow-bg"></span>
+      
+      <span class="btn-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </span>
+
+      <span class="btn-label-text">Torna alla Home</span>
+
+      <span class="btn-arrow-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </span>
+    </a>
+  </div>
+</main>
+
+<!-- FOOTER COMPLETO -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <img src="logo-icon.png" alt="" style="height:36px;">
+          <span style="font-family:'Fredoka',sans-serif; font-size:1.4rem; font-weight:700;">Oltre i Colori</span>
+        </div>
+        <p>Associazione di Promozione Sociale per l'infanzia ed il territorio. Coloriamo il futuro insieme.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/oltreicoloriofficial_?igsh=MXJydTlnczFzcjE1MA==" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="#fff" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg></a>
+          <a href="https://www.tiktok.com/@oltre.i.colori?_r=1&_t=ZN-98NeHdipoJi" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19.589 6.686a4.793 4.793 0 01-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 01-2.89 2.89 2.898 2.898 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.328 0 .64.053.931.15V9.453a6.32 6.32 0 00-.931-.07 6.333 6.333 0 00-6.333 6.333A6.333 6.333 0 009.485 22a6.333 6.333 0 006.333-6.333V9.012a8.212 8.212 0 003.771 1.119V6.686z" fill="#fff"/></svg></a>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Navigazione</h4>
+        <a href="chi-siamo.html">Chi Siamo</a>
+        <a href="index.html#attivita">Le Attività</a>
+        <a href="index.html#impatto">Storie & Impatto</a>
+        <a href="index.html#aiutare">News ed Eventi</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Contatti</h4>
+        <a href="mailto:oltreilcolorecollab@gmail.com">oltreilcolorecollab@gmail.com</a>
+        <a href="tel:+393485927134">+39 3485927134</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Rimani Aggiornato</h4>
+        <p style="font-size:.85rem; color:rgba(255,255,255,0.6); margin-bottom:10px;">Iscriviti alla newsletter per non perderti i prossimi eventi.</p>
+        <div class="nl-input-group">
+          <input type="email" placeholder="La tua email">
+          <button type="button">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 Oltre i Colori APS</span>
+      <span>SITO REALIZZATO DA: Cesario Lucca e Antonio Termini</span>
+      <span>Al vostro fianco SEMPRE</span>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPT ANIMAZIONI -->
+<script>
+/* 1. Scroll Progress Indicator */
+window.addEventListener('scroll', () => {
+  const winScroll = document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('scrollProgress').style.width = scrolled + '%';
+});
+
+/* 2. IntersectionObserver per Scroll Reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+/* 3. Canvas Sfondo Hero con Particelle Colorate */
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 5 + 2;
+    this.speedX = (Math.random() - 0.5) * 0.8;
+    this.speedY = (Math.random() - 0.5) * 0.8;
+    this.colors = ['#F58220', '#E6007E', '#009EE3'];
+    this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+    this.alpha = Math.random() * 0.4 + 0.1;
+  }
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw(){
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for(let i = 0; i < 35; i++){
+  particles.push(new Particle());
+}
+
+function animateCanvas(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateCanvas);
+}
+animateCanvas();
+
+/* 4. Effetto 3D Tilt per le Bento Card (Attivo solo su desktop con mouse) */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.querySelectorAll('.bento-card, .timeline-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -4;
+      const rotateY = ((x - centerX) / centerX) * 4;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'none';
+    });
+  });
+}
+
+/* 5. Micro-interazione Magnetica per Tasto Home */
+const btnHome = document.getElementById('btnHomeDesign');
+if (btnHome && window.matchMedia('(pointer:fine)').matches) {
+  btnHome.addEventListener('mousemove', (e) => {
+    const rect = btnHome.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btnHome.style.transform = `translate(${x * 0.22}px, ${y * 0.22 - 6}px) scale(1.03)`;
+  });
+
+  btnHome.addEventListener('mouseleave', () => {
+    btnHome.style.transform = '';
+  });
+}
+</script>
+
+</body>
+</html>
